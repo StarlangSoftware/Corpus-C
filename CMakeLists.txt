@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.23)
+project(Corpus C)
+
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_FLAGS "-O3")
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+add_library(Corpus src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c src/Paragraph.c src/Paragraph.h src/CorpusStream.c src/CorpusStream.h src/Corpus.c src/Corpus.h src/TurkishChecker.c src/TurkishChecker.h src/SentenceSplitter.h src/SentenceSplitter.c src/TurkishSplitter.c src/TurkishSplitter.h src/EnglishSplitter.c src/EnglishSplitter.h)
+target_link_libraries(Corpus ${CONAN_LIBS})
+add_executable(FileDescriptionTest src/WordFormat.h src/FileDescription.c src/FileDescription.h Test/FileDescriptionTest.c)
+target_link_libraries(FileDescriptionTest ${CONAN_LIBS})
+add_executable(SentenceTest src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c Test/SentenceTest.c)
+target_link_libraries(SentenceTest ${CONAN_LIBS})
+add_executable(CorpusStreamTest src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c src/Paragraph.c src/Paragraph.h src/CorpusStream.c src/CorpusStream.h Test/CorpusStreamTest.c)
+target_link_libraries(CorpusStreamTest ${CONAN_LIBS})
+add_executable(CorpusTest src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c src/Paragraph.c src/Paragraph.h src/CorpusStream.c src/CorpusStream.h src/Corpus.c src/Corpus.h Test/CorpusTest.c)
+target_link_libraries(CorpusTest ${CONAN_LIBS})
+add_executable(EnglishSplitterTest src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c src/Paragraph.c src/Paragraph.h src/CorpusStream.c src/CorpusStream.h src/Corpus.c src/Corpus.h src/TurkishChecker.c src/TurkishChecker.h src/SentenceSplitter.h src/SentenceSplitter.c src/TurkishSplitter.c src/TurkishSplitter.h src/EnglishSplitter.c src/EnglishSplitter.h Test/EnglishSplitterTest.c)
+target_link_libraries(EnglishSplitterTest ${CONAN_LIBS})
+add_executable(TurkishSplitterTest src/WordFormat.h src/FileDescription.c src/FileDescription.h src/Sentence.h src/Sentence.c src/Paragraph.c src/Paragraph.h src/CorpusStream.c src/CorpusStream.h src/Corpus.c src/Corpus.h src/TurkishChecker.c src/TurkishChecker.h src/SentenceSplitter.h src/SentenceSplitter.c src/TurkishSplitter.c src/TurkishSplitter.h src/EnglishSplitter.c src/EnglishSplitter.h Test/TurkishSplitterTest.c)
+target_link_libraries(TurkishSplitterTest ${CONAN_LIBS})
