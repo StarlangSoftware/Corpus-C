@@ -56,7 +56,7 @@ Corpus_ptr create_corpus3(const char *file_name, bool (*is_valid_word)(const cha
 void free_corpus(Corpus_ptr corpus) {
     free_array_list(corpus->sentences, (void (*)(void *)) free_sentence);
     free_array_list(corpus->paragraphs, (void (*)(void *)) free_paragraph);
-    free_counter_hash_map(corpus->word_list, NULL);
+    free_counter_hash_map(corpus->word_list);
     free(corpus);
 }
 
@@ -234,8 +234,8 @@ Array_list_ptr get_all_words_as_vector(const Corpus* corpus) {
  *
  * @param seed value to randomize shuffling.
  */
-void shuffle_sentences(Corpus_ptr corpus) {
-    array_list_shuffle(corpus->sentences);
+void shuffle_sentences(Corpus_ptr corpus, int seed) {
+    array_list_shuffle(corpus->sentences, seed);
 }
 
 Sentence_ptr corpus_get_sentence2(Corpus_ptr corpus) {

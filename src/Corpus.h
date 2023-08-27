@@ -59,7 +59,7 @@ int corpus_max_sentence_length(const Corpus* corpus);
 
 Array_list_ptr get_all_words_as_vector(const Corpus* corpus);
 
-void shuffle_sentences(Corpus_ptr corpus);
+void shuffle_sentences(Corpus_ptr corpus, int seed);
 
 void corpus_open(Corpus_ptr corpus);
 
