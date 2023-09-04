@@ -198,9 +198,11 @@ bool sentence_safe_index(const Sentence* sentence, int index) {
  * @return String result which has all the names of each item in words {@link ArrayList}.
  */
 String_ptr to_words(const Sentence* sentence) {
-    String_ptr result = create_string();
-    for (int i = 0; i < sentence->words->size; i++){
-        Word_ptr word = array_list_get(sentence->words, i);
+    Word_ptr word = array_list_get(sentence->words, 0);
+    String_ptr result = create_string2(word->name);
+    for (int i = 1; i < sentence->words->size; i++){
+        word = array_list_get(sentence->words, i);
+        string_append_char(result, ' ');
         string_append(result, word->name);
     }
     return result;
