@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <FileUtils.h>
 #include "Corpus.h"
 #include "Dictionary/Word.h"
 #include "Sentence.h"
@@ -50,6 +51,25 @@ Corpus_ptr create_corpus3(const char *file_name, bool (*is_valid_word)(const cha
         sentence = read_sentence2(infile, is_valid_word);
     }
     fclose(infile);
+    return result;
+}
+
+Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_splitter)(const char *)) {
+    char line[MAX_LINE_LENGTH];
+    Corpus_ptr result = create_corpus();
+    FILE *input_file = fopen(file_name, "r");
+    result->file_name = str_copy(result->file_name, file_name);
+    char* input = fgets(line, MAX_LINE_LENGTH, input_file);
+    while (input != NULL){
+        Array_list_ptr _sentences = sentence_splitter(line);
+        Paragraph_ptr paragraph = create_paragraph();
+        for (int i = 0; i < _sentences->size; i++){
+            paragraph_add_sentence(paragraph, array_list_get(_sentences, i));
+        }
+        corpus_add_paragraph(result, paragraph);
+        input = fgets(line, MAX_LINE_LENGTH, input_file);
+    }
+    fclose(input_file);
     return result;
 }
 

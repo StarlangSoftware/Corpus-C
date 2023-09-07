@@ -27,6 +27,8 @@ Corpus_ptr create_corpus2(const char *file_name);
 
 Corpus_ptr create_corpus3(const char *file_name, bool (*is_valid_word)(const char*));
 
+Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_splitter)(const char* line));
+
 void free_corpus(Corpus_ptr corpus);
 
 void corpus_combine(Corpus_ptr corpus1, const Corpus* corpus2);
