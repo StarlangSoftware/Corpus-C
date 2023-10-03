@@ -7,7 +7,7 @@
 #include "Sentence.h"
 
 /**
- * A constructor of {@link Paragraph} class which creates an {@link vector} sentences.
+ * A constructor of Paragraph class which creates an vector sentences.
  */
 Paragraph_ptr create_paragraph() {
     Paragraph_ptr result = malloc(sizeof(Paragraph));
@@ -21,7 +21,7 @@ void free_paragraph(Paragraph_ptr paragraph) {
 }
 
 /**
- * The addSentence method adds given sentence to sentences {@link vector}.
+ * The addSentence method adds given sentence to sentences vector.
  *
  * @param sentence Sentence type input to add sentences.
  */
@@ -30,16 +30,16 @@ void paragraph_add_sentence(Paragraph_ptr paragraph, Sentence_ptr sentence) {
 }
 
 /**
- * The sentenceCount method finds the size of the {@link vector} sentences.
+ * The sentenceCount method finds the size of the vector sentences.
  *
- * @return the size of the {@link vector} sentences.
+ * @return the size of the vector sentences.
  */
 int paragraph_sentence_count(const Paragraph* paragraph) {
     return paragraph->sentences->size;
 }
 
 /**
- * The getSentence method finds the sentence from sentences {@link ArrayList} at given index.
+ * The getSentence method finds the sentence from sentences ArrayList at given index.
  *
  * @param index used to get a sentence.
  * @return sentence at given index.

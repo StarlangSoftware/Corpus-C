@@ -10,7 +10,7 @@
 #include "Sentence.h"
 
 /**
- * A constructor of {@link Corpus} class which creates new {@link ArrayList} for sentences and a {@link CounterHashMap}
+ * A constructor of Corpus class which creates new ArrayList for sentences and a CounterHashMap
  * for wordList.
  */
 Corpus_ptr create_corpus() {
@@ -23,7 +23,7 @@ Corpus_ptr create_corpus() {
 }
 
 /**
- * Another constructor of {@link Corpus} class which takes a file name as an input. Then reads the input file line by line
+ * Another constructor of Corpus class which takes a file name as an input. Then reads the input file line by line
  * and calls addSentence method with each read line.
  *
  * @param fileName String file name input that will be read.
@@ -81,9 +81,9 @@ void free_corpus(Corpus_ptr corpus) {
 }
 
 /**
- * The combine method takes a {@link Corpus} as an input and adds each sentence of sentences {@link ArrayList}.
+ * The combine method takes a Corpus as an input and adds each sentence of sentences ArrayList.
  *
- * @param corpus {@link Corpus} type input.
+ * @param corpus Corpus type input.
  */
 void corpus_combine(Corpus_ptr corpus1, const Corpus* corpus2) {
     for (int i = 0; i < corpus2->sentences->size; i++) {
@@ -92,11 +92,11 @@ void corpus_combine(Corpus_ptr corpus1, const Corpus* corpus2) {
 }
 
 /**
- * The addSentence method takes a Sentence as an input. It adds given input to sentences {@link ArrayList} and loops
- * through the each word in sentence and puts these words into wordList {@link CounterHashMap}.
+ * The addSentence method takes a Sentence as an input. It adds given input to sentences ArrayList and loops
+ * through the each word in sentence and puts these words into wordList CounterHashMap.
  *
- * @param s Sentence type input that will be added to sentences {@link ArrayList} and its words will be added to wordList
- *          {@link CounterHashMap}.
+ * @param s Sentence type input that will be added to sentences ArrayList and its words will be added to wordList
+ *          CounterHashMap.
  */
 void corpus_add_sentence(Corpus_ptr corpus, Sentence_ptr sentence) {
     array_list_add(corpus->sentences, sentence);
@@ -106,7 +106,7 @@ void corpus_add_sentence(Corpus_ptr corpus, Sentence_ptr sentence) {
 }
 
 /**
- * The numberOfWords method loops through the sentences {@link ArrayList} and accumulates the number of words in sentence.
+ * The numberOfWords method loops through the sentences ArrayList and accumulates the number of words in sentence.
  *
  * @return size which holds the total number of words.
  */
@@ -120,7 +120,7 @@ int corpus_number_of_words(const Corpus* corpus) {
 }
 
 /**
- * The contains method takes a String word as an input and checks whether wordList {@link CounterHashMap} has the
+ * The contains method takes a String word as an input and checks whether wordList CounterHashMap has the
  * given word and returns true if so, otherwise returns false.
  *
  * @param word String input to check.
@@ -131,10 +131,10 @@ bool corpus_contains(const Corpus* corpus, const char *word) {
 }
 
 /**
- * The addParagraph method takes a {@link Paragraph} type input. It gets the sentences in the given paragraph and
- * add these to the sentences {@link vector} and the words in the sentences to the wordList {@link CounterHashMap}.
+ * The addParagraph method takes a Paragraph type input. It gets the sentences in the given paragraph and
+ * add these to the sentences vector and the words in the sentences to the wordList CounterHashMap.
  *
- * @param p {@link Paragraph} type input to add sentences and wordList.
+ * @param p Paragraph type input to add sentences and wordList.
  */
 void corpus_add_paragraph(Corpus_ptr corpus, Paragraph_ptr paragraph) {
     array_list_add(corpus->paragraphs, paragraph);
@@ -162,9 +162,9 @@ Array_list_ptr corpus_get_word_list(const Corpus* corpus) {
 }
 
 /**
- * The wordCount method returns the size of the wordList {@link CounterHashMap}.
+ * The wordCount method returns the size of the wordList CounterHashMap.
  *
- * @return the size of the wordList {@link CounterHashMap}.
+ * @return the size of the wordList CounterHashMap.
  */
 int corpus_word_count(const Corpus* corpus) {
     return corpus->word_list->map->count;
@@ -181,9 +181,9 @@ int corpus_get_count(const Corpus* corpus, const Word* word) {
 }
 
 /**
- * The sentenceCount method returns the size of the sentences {@link ArrayList}.
+ * The sentenceCount method returns the size of the sentences ArrayList.
  *
- * @return the size of the sentences {@link ArrayList}.
+ * @return the size of the sentences ArrayList.
  */
 int corpus_sentence_count(const Corpus* corpus) {
     return corpus->sentences->size;
@@ -200,9 +200,9 @@ Sentence_ptr corpus_get_sentence(const Corpus* corpus, int index) {
 }
 
 /**
- * The paragraphCount method returns the size of the paragraphs {@link ArrayList}.
+ * The paragraphCount method returns the size of the paragraphs ArrayList.
  *
- * @return the size of the paragraphs {@link ArrayList}.
+ * @return the size of the paragraphs ArrayList.
  */
 int corpus_paragraph_count(const Corpus* corpus) {
     return corpus->paragraphs->size;
@@ -235,10 +235,10 @@ int corpus_max_sentence_length(const Corpus* corpus) {
 }
 
 /**
- * The getAllWordsAsVector method creates new {@link vector} of vectors and adds each word in each sentence of sentences
- * {@link vector} into new {@link vector}.
+ * The getAllWordsAsVector method creates new vector of vectors and adds each word in each sentence of sentences
+ * vector into new vector.
  *
- * @return newly created and populated {@link vector}.
+ * @return newly created and populated vector.
  */
 Array_list_ptr get_all_words_as_vector(const Corpus* corpus) {
     Array_list_ptr result = create_array_list();
@@ -250,7 +250,7 @@ Array_list_ptr get_all_words_as_vector(const Corpus* corpus) {
 }
 
 /**
- * The shuffleSentences method randomly shuffles sentences {@link ArrayList} with given seed value.
+ * The shuffleSentences method randomly shuffles sentences ArrayList with given seed value.
  *
  * @param seed value to randomize shuffling.
  */
@@ -278,9 +278,9 @@ void corpus_close(Corpus_ptr corpus) {
 /**
  * The getTrainCorpus method takes two integer inputs foldNo and foldCount for determining train data size and count of fold respectively.
  * Initially creates a new empty Corpus, then finds the sentenceCount as N. Then, starting from the index 0 it loops through
- * the index (foldNo * N) / foldCount and add each sentence of sentences {@link ArrayList} to new Corpus. Later on,
+ * the index (foldNo * N) / foldCount and add each sentence of sentences ArrayList to new Corpus. Later on,
  * starting from the index ((foldNo + 1) * N) / foldCount, it loops through the index N and add each sentence of
- * sentences {@link ArrayList} to new Corpus.
+ * sentences ArrayList to new Corpus.
  *
  * @param foldNo    Integer input for train set size.
  * @param foldCount Integer input for counting fold.
@@ -302,7 +302,7 @@ Corpus_ptr get_train_corpus(const Corpus* corpus, int foldNo, int foldCount) {
  * The getTestCorpus method takes two integer inputs foldNo and foldCount for determining test data size and count of
  * fold respectively.. Initially creates a new empty Corpus, then finds the sentenceCount as N.
  * Then, starting from the index (foldNo * N) / foldCount it loops through the index ((foldNo + 1) * N) / foldCount and
- * add each sentence of sentences {@link ArrayList} to new Corpus.
+ * add each sentence of sentences ArrayList to new Corpus.
  *
  * @param foldNo    Integer input for test size.
  * @param foldCount Integer input counting fold.

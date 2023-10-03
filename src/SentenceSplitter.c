@@ -234,7 +234,7 @@ bool is_in_time_string(const char *line, int i) {
 }
 
 /**
- * The split method takes a String line as an input. Firstly it creates a new sentence as currentSentence a new {@link ArrayList}
+ * The split method takes a String line as an input. Firstly it creates a new sentence as currentSentence a new ArrayList
  * as sentences. Then loops till the end of the line and checks some conditions;
  * If the char at ith index is a separator;
  * <p>
@@ -274,7 +274,7 @@ bool is_in_time_string(const char *line, int i) {
  * {@literal @} : assign emailMode as true.
  *
  * @param line String input to split.
- * @return sentences {@link ArrayList} which holds split line.
+ * @return sentences ArrayList which holds split line.
  */
 Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_case_letters, const Array_list* shortcuts, const char* line) {
     bool emailMode = false, webMode = false;
