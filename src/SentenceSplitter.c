@@ -5,6 +5,7 @@
 #include <string.h>
 #include <Dictionary/Word.h>
 #include <Language/Language.h>
+#include <RegularExpression.h>
 #include "SentenceSplitter.h"
 #include "Sentence.h"
 
@@ -447,13 +448,15 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                         curlyBracketCount = 0;
                         quotaCount = 0;
                         specialQuotaCount = 0;
-                        if (!string_empty(currentWord)) { //Regex missing!!!!
+                        Regular_expression_ptr re = create_regular_expression("\\d+");
+                        if (!string_empty(currentWord) && full_matches(re, currentWord->s)) {
                             String_ptr tmp = create_string3(currentWord->s, " -");
                             sentence_add_word(currentSentence, create_word(tmp->s));
                             free_string_ptr(tmp);
                         } else {
                             sentence_add_word(currentSentence, create_word("-"));
                         }
+                        free_regular_expression(re);
                         clean_string(currentWord);
                     } else {
                         if (str_contains(PUNCTUATION_CHARACTERS, ch->s) || str_contains(ARITHMETIC_CHARACTERS, ch->s)) {

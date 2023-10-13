@@ -4,7 +4,7 @@ from conans import ConanFile, CMake, tools
 class CorpusConan(ConanFile):
     name = "Corpus-C"
     version = "1.0.0"
-    requires = "Dictionary-C/1.0.0"
+    requires = ["Regular-C/1.0.0"]
     license = "GPL License"
     author = "Olcay Taner Yildiz olcay.yildiz@ozyegin.edu.tr"
     url = "https://github.com/StarlangSoftware/Corpus-C"
