@@ -73,14 +73,14 @@ Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
  * @param sentence String input to parse.
  */
 Sentence_ptr create_sentence3(char* sentence) {
-    Array_list_ptr tokens = split(sentence);
+    Array_list_ptr tokens = str_split(sentence, ' ');
     Sentence_ptr result = malloc(sizeof(Sentence));
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
-        String_ptr string = array_list_get(tokens, i);
-        array_list_add(result->words, create_word(string->s));
+        char* string = array_list_get(tokens, i);
+        array_list_add(result->words, create_word(string));
     }
-    free_array_list(tokens, (void (*)(void *)) free_string_ptr);
+    free_array_list(tokens, (void (*)(void *)) free);
     return result;
 }
 
