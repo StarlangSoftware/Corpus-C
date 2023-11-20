@@ -207,3 +207,19 @@ String_ptr to_words(const Sentence* sentence) {
     }
     return result;
 }
+
+/**
+ * The sentence_to_string method returns an accumulated string of each word's names in words ArrayList.
+ *
+ * @return String result which has all the names of each item in words ArrayList.
+ */
+char* sentence_to_string(const Sentence* sentence) {
+    char tmp[MAX_LINE_LENGTH];
+    sprintf(tmp, "%s", ((Word_ptr) (array_list_get(sentence->words, 0)))->name);
+    for (int i = 1; i < sentence->words->size; i++){
+        Word_ptr word = array_list_get(sentence->words, i);
+        sprintf(tmp, "%s %s", tmp, word->name);
+    }
+    char* result = str_copy(result, tmp);
+    return result;
+}

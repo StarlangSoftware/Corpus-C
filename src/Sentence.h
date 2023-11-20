@@ -48,4 +48,6 @@ bool sentence_safe_index(const Sentence* sentence, int index);
 
 String_ptr to_words(const Sentence* sentence);
 
+char* sentence_to_string(const Sentence* sentence);
+
 #endif //CORPUS_SENTENCE_H
