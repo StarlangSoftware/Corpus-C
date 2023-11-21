@@ -17,8 +17,8 @@ Corpus_ptr create_corpus() {
     Corpus_ptr result = malloc(sizeof(Corpus));
     result->sentences = create_array_list();
     result->paragraphs = create_array_list();
-    result->word_list = create_counter_hash_map((unsigned int (*)(const void *, int)) hash_function_word,
-                                                (int (*)(const void *, const void *)) compare_word);
+    result->word_list = create_counter_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
+                                                (int (*)(const void *, const void *)) compare_string);
     return result;
 }
 
@@ -127,7 +127,7 @@ int corpus_number_of_words(const Corpus* corpus) {
  * @return true if wordList has the given word, false otherwise.
  */
 bool corpus_contains(const Corpus* corpus, const char *word) {
-    return hash_map_contains(corpus->word_list->map, create_word(word));
+    return hash_map_contains(corpus->word_list->map, word);
 }
 
 /**
@@ -176,7 +176,7 @@ int corpus_word_count(const Corpus* corpus) {
  * @param word Word type input to check.
  * @return the count value of given word.
  */
-int corpus_get_count(const Corpus* corpus, const Word* word) {
+int corpus_get_count(const Corpus* corpus, const char* word) {
     return count_counter_hash_map(corpus->word_list, word);
 }
 

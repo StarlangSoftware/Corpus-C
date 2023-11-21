@@ -17,7 +17,7 @@ Sentence_ptr create_sentence() {
 }
 
 void free_sentence(Sentence_ptr sentence) {
-    free_array_list(sentence->words, (void (*)(void *)) free_word);
+    free_array_list(sentence->words, (void (*)(void *)) free);
     free(sentence);
 }
 
@@ -42,9 +42,9 @@ Sentence_ptr read_sentence(FILE *infile) {
     Sentence_ptr result = malloc(sizeof(Sentence));
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
-        array_list_add(result->words, create_word(array_list_get(tokens, i)));
+        array_list_add(result->words, array_list_get(tokens, i));
     }
-    free_array_list(tokens, free);
+    free_array_list(tokens, NULL);
     return result;
 }
 
@@ -59,10 +59,10 @@ Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
         if (is_valid_word(array_list_get(tokens, i))){
-            array_list_add(result->words, create_word(array_list_get(tokens, i)));
+            array_list_add(result->words, array_list_get(tokens, i));
         }
     }
-    free_array_list(tokens, free);
+    free_array_list(tokens, NULL);
     return result;
 }
 
@@ -78,9 +78,9 @@ Sentence_ptr create_sentence3(char* sentence) {
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
         char* string = array_list_get(tokens, i);
-        array_list_add(result->words, create_word(string));
+        array_list_add(result->words, string);
     }
-    free_array_list(tokens, (void (*)(void *)) free);
+    free_array_list(tokens, NULL);
     return result;
 }
 
@@ -99,7 +99,7 @@ Sentence_ptr create_sentence3(char* sentence) {
  * @param index is used to get the word.
  * @return the word in given index.
  */
-Word_ptr sentence_get_word(const Sentence* sentence, int index) {
+char* sentence_get_word(const Sentence* sentence, int index) {
     return array_list_get(sentence->words, index);
 }
 
@@ -118,10 +118,10 @@ Array_list_ptr sentence_get_words(const Sentence* sentence) {
  * @param word Word type input to search for.
  * @return index of the found input, -1 if not found.
  */
-int sentence_get_index(const Sentence* sentence, const Word* word) {
+int sentence_get_index(const Sentence* sentence, const char* word) {
     for (int i = 0; i < sentence->words->size; i++){
-        Word_ptr current = array_list_get(sentence->words, i);
-        if (strcmp(current->name, word->name) == 0){
+        char* current = array_list_get(sentence->words, i);
+        if (strcmp(current, word) == 0){
             return i;
         }
     }
@@ -142,7 +142,7 @@ int sentence_word_count(const Sentence* sentence) {
  *
  * @param word Word to add words vector.
  */
-void sentence_add_word(Sentence_ptr sentence, Word_ptr word) {
+void sentence_add_word(Sentence_ptr sentence, char* word) {
     array_list_add(sentence->words, word);
 }
 
@@ -154,7 +154,7 @@ void sentence_add_word(Sentence_ptr sentence, Word_ptr word) {
 int sentence_char_count(const Sentence* sentence) {
     int sum = 0;
     for (int i = 0; i < sentence->words->size; i++){
-        Word_ptr word = array_list_get(sentence->words, i);
+        char* word = array_list_get(sentence->words, i);
         sum += char_count(word);
     }
     return sum;
@@ -167,8 +167,8 @@ int sentence_char_count(const Sentence* sentence) {
  * @param i       index.
  * @param newWord to add the words vector.
  */
-void sentence_replace_word(Sentence_ptr sentence, int i, Word_ptr new_word){
-    array_list_replace(sentence->words, i, new_word, (void (*)(void *)) free_word);
+void sentence_replace_word(Sentence_ptr sentence, int i, char* new_word){
+    array_list_replace(sentence->words, i, new_word, (void (*)(void *)) free);
 }
 
 /**
@@ -178,7 +178,7 @@ void sentence_replace_word(Sentence_ptr sentence, int i, Word_ptr new_word){
  * @param i       index.
  * @param newWord to add the words ArrayList.
  */
-void sentence_insert_word(Sentence_ptr sentence, int i, Word_ptr new_word) {
+void sentence_insert_word(Sentence_ptr sentence, int i, char* new_word) {
     array_list_insert(sentence->words, i, new_word);
 }
 
@@ -198,12 +198,12 @@ bool sentence_safe_index(const Sentence* sentence, int index) {
  * @return String result which has all the names of each item in words ArrayList.
  */
 String_ptr to_words(const Sentence* sentence) {
-    Word_ptr word = array_list_get(sentence->words, 0);
-    String_ptr result = create_string2(word->name);
+    char* word = array_list_get(sentence->words, 0);
+    String_ptr result = create_string2(word);
     for (int i = 1; i < sentence->words->size; i++){
         word = array_list_get(sentence->words, i);
         string_append_char(result, ' ');
-        string_append(result, word->name);
+        string_append(result, word);
     }
     return result;
 }
@@ -215,11 +215,16 @@ String_ptr to_words(const Sentence* sentence) {
  */
 char* sentence_to_string(const Sentence* sentence) {
     char tmp[MAX_LINE_LENGTH];
-    sprintf(tmp, "%s", ((Word_ptr) (array_list_get(sentence->words, 0)))->name);
+    sprintf(tmp, "%s", (char*) array_list_get(sentence->words, 0));
     for (int i = 1; i < sentence->words->size; i++){
-        Word_ptr word = array_list_get(sentence->words, i);
-        sprintf(tmp, "%s %s", tmp, word->name);
+        char* word = array_list_get(sentence->words, i);
+        sprintf(tmp, "%s %s", tmp, word);
     }
     char* result = str_copy(result, tmp);
     return result;
+}
+
+void sentence_add_word_copy(Sentence_ptr sentence, char *word) {
+    char* copy = str_copy(copy, word);
+    array_list_add(sentence->words, copy);
 }

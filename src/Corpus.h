@@ -47,7 +47,7 @@ Array_list_ptr corpus_get_word_list(const Corpus* corpus);
 
 int corpus_word_count(const Corpus* corpus);
 
-int corpus_get_count(const Corpus* corpus, const Word* word);
+int corpus_get_count(const Corpus* corpus, const char* word);
 
 int corpus_sentence_count(const Corpus* corpus);
 

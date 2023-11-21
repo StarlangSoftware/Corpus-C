@@ -32,22 +32,22 @@ void testWordCount(Corpus_ptr corpus, Corpus_ptr simple_corpus){
 }
 
 void testGetCount(Corpus_ptr corpus, Corpus_ptr simple_corpus){
-    if (corpus_get_count(corpus, create_word("mustafa")) != 309){
+    if (corpus_get_count(corpus, "mustafa") != 309){
         printf("Error in get count 1");
     }
-    if (corpus_get_count(corpus, create_word("kemal")) != 109){
+    if (corpus_get_count(corpus, "kemal") != 109){
         printf("Error in get count 2");
     }
-    if (corpus_get_count(corpus, create_word("atatürk")) != 122){
+    if (corpus_get_count(corpus, "atatürk") != 122){
         printf("Error in get count 3");
     }
-    if (corpus_get_count(simple_corpus, create_word("ali")) != 4){
+    if (corpus_get_count(simple_corpus, "ali") != 4){
         printf("Error in get count 4");
     }
-    if (corpus_get_count(simple_corpus, create_word("gitti")) != 3){
+    if (corpus_get_count(simple_corpus, "gitti") != 3){
         printf("Error in get count 5");
     }
-    if (corpus_get_count(simple_corpus, create_word("at")) != 4){
+    if (corpus_get_count(simple_corpus, "at") != 4){
         printf("Error in get count 6");
     }
 }

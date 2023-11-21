@@ -291,11 +291,11 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
             } else {
                 if (!string_empty(currentWord)) {
                     String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-                    sentence_add_word(currentSentence, create_word(tmp->s));
+                    sentence_add_word_copy(currentSentence, tmp->s);
                     free_string_ptr(tmp);
                 }
                 if (!string_equals2(ch, "\n")){
-                    sentence_add_word(currentSentence, create_word(ch->s));
+                    sentence_add_word_copy(currentSentence, ch->s);
                 }
                 clean_string(currentWord);
                 if (string_equals2(ch, "{")){
@@ -366,12 +366,12 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                 }
                 if (string_equals2(ch, ".") && !string_empty(currentWord) && (webMode || emailMode || (str_contains(DIGITS, char_at(line, i - 1)->s) && !is_next_char_upper_case_or_digit(upper_case_letters, line, i + 1)))) {
                     string_append_s(currentWord, ch);
-                    sentence_add_word(currentSentence, create_word(currentWord->s));
+                    sentence_add_word_copy(currentSentence, currentWord->s);
                     clean_string(currentWord);
                 } else {
                     if (string_equals2(ch, ".") && (shortcut_list_contains(shortcuts, currentWord->s) || is_name_shortcut(upper_case_letters, currentWord->s))) {
                         string_append_s(currentWord, ch);
-                        sentence_add_word(currentSentence, create_word(currentWord->s));
+                        sentence_add_word_copy(currentSentence, currentWord->s);
                         clean_string(currentWord);
                     } else {
                         if (string_equals2(ch, ".") && number_exists_before_and_after(line, i)){
@@ -379,7 +379,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                         } else {
                             if (!string_empty(currentWord)) {
                                 String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-                                sentence_add_word(currentSentence, create_word(tmp->s));
+                                sentence_add_word_copy(currentSentence, tmp->s);
                                 free_string_ptr(tmp);
                             }
                             free_string_ptr(currentWord);
@@ -392,10 +392,10 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                             i--;
                             free_string_ptr(ch);
                             ch = char_at(line, i);
-                            sentence_add_word(currentSentence, create_word(currentWord->s));
+                            sentence_add_word_copy(currentSentence, currentWord->s);
                             if (roundParenthesisCount == 0 && bracketCount == 0 && curlyBracketCount == 0 && quotaCount == 0) {
                                 if (i + 1 < word_size(line) && string_equals2(char_at(line, i + 1), "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 2)) {
-                                    sentence_add_word(currentSentence, create_word("'"));
+                                    sentence_add_word_copy(currentSentence, "'");
                                     i++;
                                     free_string_ptr(ch);
                                     ch = char_at(line, i);
@@ -404,7 +404,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                                 } else {
                                     if (i + 2 < word_size(line) && string_equals2(char_at(line, i + 1), " ") &&
                                             string_equals2(char_at(line, i + 2), "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 3)) {
-                                        sentence_add_word(currentSentence, create_word("'"));
+                                        sentence_add_word_copy(currentSentence, "'");
                                         i += 2;
                                         free_string_ptr(ch);
                                         ch = char_at(line, i);
@@ -428,7 +428,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                     webMode = false;
                     if (!string_empty(currentWord)) {
                         String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-                        sentence_add_word(currentSentence, create_word(tmp->s));
+                        sentence_add_word_copy(currentSentence, tmp->s);
                         free_string_ptr(tmp);
                         clean_string(currentWord);
                     }
@@ -436,7 +436,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                     if (string_equals2(ch, "-") && !webMode && roundParenthesisCount == 0 && is_next_char_upper_case(upper_case_letters, line, i + 1) && !is_previous_word_upper_case(lower_case_letters, upper_case_letters, line, i - 1)) {
                         if (!string_empty(currentWord) && !str_contains(DIGITS, currentWord->s)) {
                             String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-                            sentence_add_word(currentSentence, create_word(tmp->s));
+                            sentence_add_word_copy(currentSentence, tmp->s);
                             free_string_ptr(tmp);
                         }
                         if (sentence_word_count(currentSentence) > 0) {
@@ -451,10 +451,10 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                         Regular_expression_ptr re = create_regular_expression("\\d+");
                         if (!string_empty(currentWord) && full_matches(re, currentWord->s)) {
                             String_ptr tmp = create_string3(currentWord->s, " -");
-                            sentence_add_word(currentSentence, create_word(tmp->s));
+                            sentence_add_word_copy(currentSentence, tmp->s);
                             free_string_ptr(tmp);
                         } else {
-                            sentence_add_word(currentSentence, create_word("-"));
+                            sentence_add_word_copy(currentSentence, "-");
                         }
                         free_regular_expression(re);
                         clean_string(currentWord);
@@ -477,10 +477,10 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                                         } else {
                                             if (!string_empty(currentWord)) {
                                                 String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-                                                sentence_add_word(currentSentence, create_word(tmp->s));
+                                                sentence_add_word_copy(currentSentence, tmp->s);
                                                 free_string_ptr(tmp);
                                             }
-                                            sentence_add_word(currentSentence, create_word(ch->s));
+                                            sentence_add_word_copy(currentSentence, ch->s);
                                             clean_string(currentWord);
                                         }
                                     }
@@ -503,7 +503,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
     }
     if (!string_empty(currentWord)) {
         String_ptr tmp = repeat_control(currentWord->s, webMode || emailMode);
-        sentence_add_word(currentSentence, create_word(tmp->s));
+        sentence_add_word_copy(currentSentence, tmp->s);
         free_string_ptr(tmp);
     }
     if (sentence_word_count(currentSentence) > 0) {
