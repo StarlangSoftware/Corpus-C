@@ -2,6 +2,7 @@
 // Created by Olcay Taner YILDIZ on 29.05.2023.
 //
 
+#include <stddef.h>
 #include "EnglishSplitter.h"
 #include "SentenceSplitter.h"
 #include "Language/EnglishLanguage.h"
@@ -34,5 +35,7 @@ Array_list_ptr sentence_split_english(const char *line) {
     array_list_add(shortcuts, "jr");
     array_list_add(shortcuts, "mrs");
     array_list_add(shortcuts, "sir");
-    return sentence_split(ENGLISH_UPPERCASE_LETTERS, ENGLISH_LOWERCASE_LETTERS, shortcuts, line);
+    Array_list_ptr result = sentence_split(ENGLISH_UPPERCASE_LETTERS, ENGLISH_LOWERCASE_LETTERS, shortcuts, line);
+    free_array_list(shortcuts, NULL);
+    return result;
 }

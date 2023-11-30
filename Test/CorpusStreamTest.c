@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <Memory/Memory.h>
 #include "../src/CorpusStream.h"
 
 void test_number_of_words1(){

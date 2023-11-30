@@ -3,6 +3,7 @@
 //
 
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "Paragraph.h"
 #include "Sentence.h"
 
@@ -10,14 +11,14 @@
  * A constructor of Paragraph class which creates an vector sentences.
  */
 Paragraph_ptr create_paragraph() {
-    Paragraph_ptr result = malloc(sizeof(Paragraph));
+    Paragraph_ptr result = malloc_(sizeof(Paragraph), "create_paragraph");
     result->sentences = create_array_list();
     return result;
 }
 
 void free_paragraph(Paragraph_ptr paragraph) {
     free_array_list(paragraph->sentences, (void (*)(void *)) free_sentence);
-    free(paragraph);
+    free_(paragraph);
 }
 
 /**

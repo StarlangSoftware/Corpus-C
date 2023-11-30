@@ -3,6 +3,7 @@
 //
 
 #include <Language/TurkishLanguage.h>
+#include <stddef.h>
 #include "TurkishSplitter.h"
 #include "SentenceSplitter.h"
 
@@ -139,5 +140,7 @@ Array_list_ptr sentence_split_turkish(const char *line) {
     array_list_add(shortcuts, "ste");
     array_list_add(shortcuts, "exc");
     array_list_add(shortcuts, "ef");
-    return sentence_split(TURKISH_UPPERCASE_LETTERS, TURKISH_LOWERCASE_LETTERS, shortcuts, line);
+    Array_list_ptr result = sentence_split(TURKISH_UPPERCASE_LETTERS, TURKISH_LOWERCASE_LETTERS, shortcuts, line);
+    free_array_list(shortcuts, NULL);
+    return result;
 }

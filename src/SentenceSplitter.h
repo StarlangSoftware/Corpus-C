@@ -33,4 +33,8 @@ bool is_in_time_string(const char* line, int i);
 
 Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_case_letters, const Array_list* shortcuts, const char* line);
 
+bool is_digit(const char *line, int index);
+
+bool is_equal_to_char(const char *line, int index, char* _ch);
+
 #endif //CORPUS_SENTENCESPLITTER_H

@@ -6,6 +6,7 @@
 #include <Dictionary/Word.h>
 #include <Language/Language.h>
 #include <RegularExpression.h>
+#include <Memory/Memory.h>
 #include "SentenceSplitter.h"
 #include "Sentence.h"
 
@@ -121,12 +122,10 @@ bool is_name_shortcut(const char* upper_case_letters, const char *current_word) 
     if (word_size(current_word) == 1 && str_contains(upper_case_letters, current_word)) {
         return true;
     }
-    String_ptr ch1 = char_at(current_word, 1);
     String_ptr ch2 = char_at(current_word, 2);
-    if (word_size(current_word) == 3 && string_equals2(ch1, ".") && str_contains(upper_case_letters, ch2->s)) {
+    if (word_size(current_word) == 3 && is_equal_to_char(current_word, 1, ".") && str_contains(upper_case_letters, ch2->s)) {
         result = true;
     }
-    free_string_ptr(ch1);
     free_string_ptr(ch2);
     return result;
 }
@@ -202,11 +201,7 @@ bool is_apostrophe(const char *lower_case_letters, const char *upper_case_letter
 bool number_exists_before_and_after(const char *line, int i) {
     bool result = false;
     if (i > 0 && i + 1 < word_size(line)) {
-        String_ptr previous = char_at(line, i - 1);
-        String_ptr next = char_at(line, i + 1);
-        result = str_contains(DIGITS, previous->s) && str_contains(DIGITS, next->s);
-        free_string_ptr(previous);
-        free_string_ptr(next);
+        result = is_digit(line, i - 1) && is_digit(line, i + 1);
     }
     return result;
 }
@@ -223,13 +218,7 @@ bool number_exists_before_and_after(const char *line, int i) {
 bool is_in_time_string(const char *line, int i) {
     bool result = false;
     if (i > 0 && i + 2 < word_size(line)) {
-        String_ptr previous = char_at(line, i - 1);
-        String_ptr next = char_at(line, i + 1);
-        String_ptr two_next = char_at(line, i + 2);
-        result = str_contains(DIGITS, previous->s) && str_contains(DIGITS, next->s) && str_contains(DIGITS, two_next->s);
-        free_string_ptr(previous);
-        free_string_ptr(next);
-        free_string_ptr(two_next);
+        result = is_digit(line, i - 1) && is_digit(line, i + 1) && is_digit(line, i + 2);
     }
     return result;
 }
@@ -361,10 +350,12 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
             }
         } else {
             if (str_contains(SENTENCE_ENDERS, ch->s)) {
-                if (string_equals2(ch, ".") && strcmp(lowercase_en(currentWord->s), "www") == 0) {
+                char* lowercase = lowercase_en(currentWord->s);
+                if (string_equals2(ch, ".") && strcmp(lowercase, "www") == 0) {
                     webMode = true;
                 }
-                if (string_equals2(ch, ".") && !string_empty(currentWord) && (webMode || emailMode || (str_contains(DIGITS, char_at(line, i - 1)->s) && !is_next_char_upper_case_or_digit(upper_case_letters, line, i + 1)))) {
+                free_(lowercase);
+                if (string_equals2(ch, ".") && !string_empty(currentWord) && (webMode || emailMode || (is_digit(line, i - 1) && !is_next_char_upper_case_or_digit(upper_case_letters, line, i + 1)))) {
                     string_append_s(currentWord, ch);
                     sentence_add_word_copy(currentSentence, currentWord->s);
                     clean_string(currentWord);
@@ -394,7 +385,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                             ch = char_at(line, i);
                             sentence_add_word_copy(currentSentence, currentWord->s);
                             if (roundParenthesisCount == 0 && bracketCount == 0 && curlyBracketCount == 0 && quotaCount == 0) {
-                                if (i + 1 < word_size(line) && string_equals2(char_at(line, i + 1), "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 2)) {
+                                if (i + 1 < word_size(line) && is_equal_to_char(line, i + 1, "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 2)) {
                                     sentence_add_word_copy(currentSentence, "'");
                                     i++;
                                     free_string_ptr(ch);
@@ -402,8 +393,8 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                                     array_list_add(sentences, currentSentence);
                                     currentSentence = create_sentence();
                                 } else {
-                                    if (i + 2 < word_size(line) && string_equals2(char_at(line, i + 1), " ") &&
-                                            string_equals2(char_at(line, i + 2), "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 3)) {
+                                    if (i + 2 < word_size(line) && is_equal_to_char(line, i + 1, " ") &&
+                                            is_equal_to_char(line, i + 2, "'") && apostropheCount == 1 && is_next_char_upper_case_or_digit(upper_case_letters, line, i + 3)) {
                                         sentence_add_word_copy(currentSentence, "'");
                                         i += 2;
                                         free_string_ptr(ch);
@@ -441,6 +432,8 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
                         }
                         if (sentence_word_count(currentSentence) > 0) {
                             array_list_add(sentences, currentSentence);
+                        } else {
+                            free_sentence(currentSentence);
                         }
                         currentSentence = create_sentence();
                         roundParenthesisCount = 0;
@@ -506,9 +499,26 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
         sentence_add_word_copy(currentSentence, tmp->s);
         free_string_ptr(tmp);
     }
+    free_string_ptr(currentWord);
     if (sentence_word_count(currentSentence) > 0) {
         array_list_add(sentences, currentSentence);
+    } else {
+        free_sentence(currentSentence);
     }
     return sentences;
+}
+
+bool is_digit(const char *line, int index) {
+    String_ptr ch = char_at(line, index);
+    bool result = str_contains(DIGITS, ch->s);
+    free_string_ptr(ch);
+    return result;
+}
+
+bool is_equal_to_char(const char *line, int index, char *_ch) {
+    String_ptr ch = char_at(line, index);
+    bool result = string_equals2(ch, _ch);
+    free_string_ptr(ch);
+    return result;
 }
 

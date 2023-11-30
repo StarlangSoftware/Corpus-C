@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <Memory/Memory.h>
 #include "../src/FileDescription.h"
 
 void testGetIndex(){
@@ -54,29 +55,43 @@ void testGetExtension() {
 
 void testGetFileName(){
     File_description_ptr file_description = create_file_description("mypath", "0003.train");
-    if (strcmp(get_file_name(file_description), "mypath/0003.train") != 0) {
+    char* file_name = get_file_name(file_description);
+    if (strcmp(file_name, "mypath/0003.train") != 0) {
         printf("Error in get filename 1");
     }
-    if (strcmp(get_file_name2(file_description, "newpath"), "newpath/0003.train") != 0) {
+    free_(file_name);
+    file_name = get_file_name2(file_description, "newpath");
+    if (strcmp(file_name, "newpath/0003.train") != 0) {
         printf("Error in get filename 2");
     }
-    if (strcmp(get_file_name3(file_description, "newpath", "dev"), "newpath/0003.dev") != 0) {
+    free_(file_name);
+    file_name = get_file_name3(file_description, "newpath", "dev");
+    if (strcmp(file_name, "newpath/0003.dev") != 0) {
         printf("Error in get filename 3");
     }
-    if (strcmp(get_file_name4(file_description, "newpath", 0), "newpath/0000.train") != 0) {
+    free_(file_name);
+    file_name = get_file_name4(file_description, "newpath", 0);
+    if (strcmp(file_name, "newpath/0000.train") != 0) {
         printf("Error in get filename 4");
     }
-    if (strcmp(get_raw_file_name(file_description), "0003.train") != 0) {
+    free_(file_name);
+    file_name = get_raw_file_name(file_description);
+    if (strcmp(file_name, "0003.train") != 0) {
         printf("Error in get filename 5");
     }
-    if (strcmp(get_file_name_with_extension(file_description, "dev"), "mypath/0003.dev") != 0) {
+    free_(file_name);
+    file_name = get_file_name_with_extension(file_description, "dev");
+    if (strcmp(file_name, "mypath/0003.dev") != 0) {
         printf("Error in get filename 6");
     }
+    free_(file_name);
     free_file_description(file_description);
 }
 
 int main(){
+    start_memory_check();
     testGetIndex();
     testGetExtension();
     testGetFileName();
+    end_memory_check();
 }

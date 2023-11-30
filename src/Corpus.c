@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <FileUtils.h>
+#include <Memory/Memory.h>
 #include "Corpus.h"
 #include "Dictionary/Word.h"
 #include "Sentence.h"
@@ -14,7 +15,7 @@
  * for wordList.
  */
 Corpus_ptr create_corpus() {
-    Corpus_ptr result = malloc(sizeof(Corpus));
+    Corpus_ptr result = malloc_(sizeof(Corpus), "create_corpus");
     result->sentences = create_array_list();
     result->paragraphs = create_array_list();
     result->word_list = create_counter_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
@@ -74,10 +75,11 @@ Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_split
 }
 
 void free_corpus(Corpus_ptr corpus) {
+    free_(corpus->file_name);
     free_array_list(corpus->sentences, (void (*)(void *)) free_sentence);
     free_array_list(corpus->paragraphs, (void (*)(void *)) free_paragraph);
     free_counter_hash_map(corpus->word_list);
-    free(corpus);
+    free_(corpus);
 }
 
 /**

@@ -6,19 +6,20 @@
 #include <FileUtils.h>
 #include <string.h>
 #include "Sentence.h"
+#include "Memory/Memory.h"
 
 /**
  * An empty constructor of Sentence class. Creates an vector of words.
  */
 Sentence_ptr create_sentence() {
-    Sentence_ptr result = malloc(sizeof(Sentence));
+    Sentence_ptr result = malloc_(sizeof(Sentence), "create_sentence");
     result->words = create_array_list();
     return result;
 }
 
 void free_sentence(Sentence_ptr sentence) {
-    free_array_list(sentence->words, (void (*)(void *)) free);
-    free(sentence);
+    free_array_list(sentence->words, (void (*)(void *)) free_);
+    free_(sentence);
 }
 
 /**
@@ -36,10 +37,10 @@ Sentence_ptr create_sentence2(FILE *infile) {
 Sentence_ptr read_sentence(FILE *infile) {
     Array_list_ptr tokens = read_items(infile, ' ');
     if (tokens->size == 0){
-        free_array_list(tokens, free);
+        free_array_list(tokens, free_);
         return NULL;
     }
-    Sentence_ptr result = malloc(sizeof(Sentence));
+    Sentence_ptr result = malloc_(sizeof(Sentence), "read_sentence");
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
         array_list_add(result->words, array_list_get(tokens, i));
@@ -52,10 +53,10 @@ Sentence_ptr read_sentence(FILE *infile) {
 Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
     Array_list_ptr tokens = read_items(infile, ' ');
     if (tokens->size == 0){
-        free_array_list(tokens, free);
+        free_array_list(tokens, free_);
         return NULL;
     }
-    Sentence_ptr result = malloc(sizeof(Sentence));
+    Sentence_ptr result = malloc_(sizeof(Sentence), "read_sentence2");
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
         if (is_valid_word(array_list_get(tokens, i))){
@@ -74,7 +75,7 @@ Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
  */
 Sentence_ptr create_sentence3(char* sentence) {
     Array_list_ptr tokens = str_split(sentence, ' ');
-    Sentence_ptr result = malloc(sizeof(Sentence));
+    Sentence_ptr result = malloc_(sizeof(Sentence), "create_sentence3");
     result->words = create_array_list();
     for (int i = 0; i < tokens->size; i++){
         char* string = array_list_get(tokens, i);
@@ -168,7 +169,7 @@ int sentence_char_count(const Sentence* sentence) {
  * @param newWord to add the words vector.
  */
 void sentence_replace_word(Sentence_ptr sentence, int i, char* new_word){
-    array_list_replace(sentence->words, i, new_word, (void (*)(void *)) free);
+    array_list_replace(sentence->words, i, new_word, (void (*)(void *)) free_);
 }
 
 /**
@@ -220,8 +221,7 @@ char* sentence_to_string(const Sentence* sentence) {
         char* word = array_list_get(sentence->words, i);
         sprintf(tmp, "%s %s", tmp, word);
     }
-    char* result = str_copy(result, tmp);
-    return result;
+    return clone_string(tmp);
 }
 
 void sentence_add_word_copy(Sentence_ptr sentence, char *word) {

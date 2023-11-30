@@ -4,17 +4,18 @@
 
 #include <stdlib.h>
 #include <StringUtils.h>
+#include <Memory/Memory.h>
 #include "CorpusStream.h"
 
 Corpus_stream_ptr create_corpus_stream(const char *file_name) {
-    Corpus_stream_ptr result = malloc(sizeof(Corpus_stream));
+    Corpus_stream_ptr result = malloc_(sizeof(Corpus_stream), "create_corpus_stream");
     result->file_name = str_copy(result->file_name, file_name);
     return result;
 }
 
 void free_corpus_stream(Corpus_stream_ptr corpus_stream) {
-    free(corpus_stream->file_name);
-    free(corpus_stream);
+    free_(corpus_stream->file_name);
+    free_(corpus_stream);
 }
 
 void corpus_stream_open(Corpus_stream_ptr corpus_stream) {
