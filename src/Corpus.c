@@ -67,6 +67,7 @@ Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_split
         for (int i = 0; i < _sentences->size; i++){
             paragraph_add_sentence(paragraph, array_list_get(_sentences, i));
         }
+        free_array_list(_sentences, NULL);
         corpus_add_paragraph(result, paragraph);
         input = fgets(line, MAX_LINE_LENGTH, input_file);
     }
