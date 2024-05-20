@@ -17,6 +17,10 @@ Sentence_ptr create_sentence() {
     return result;
 }
 
+/**
+ * Frees memory allocated for sentence. Frees words array list.
+ * @param sentence Current sentence.
+ */
 void free_sentence(Sentence_ptr sentence) {
     free_array_list(sentence->words, (void (*)(void *)) free_);
     free_(sentence);
@@ -34,6 +38,11 @@ Sentence_ptr create_sentence2(FILE *infile) {
     return result;
 }
 
+/**
+ * Reads a sentence from an input file. Returns the sentence.
+ * @param infile Input file.
+ * @return Sentence read.
+ */
 Sentence_ptr read_sentence(FILE *infile) {
     Array_list_ptr tokens = read_items(infile, ' ');
     if (tokens->size == 0){
@@ -50,6 +59,13 @@ Sentence_ptr read_sentence(FILE *infile) {
 }
 
 
+/**
+ * Reads a sentence from an input file. Checks also each token for validity. If the token is not valid, it is not added
+ * to the sentence. Returns the sentence.
+ * @param infile Input file.
+ * @param is_valid_word Method checking the validity of a word.
+ * @return Sentence read.
+ */
 Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
     Array_list_ptr tokens = read_items(infile, ' ');
     if (tokens->size == 0){
@@ -224,6 +240,11 @@ char* sentence_to_string(const Sentence* sentence) {
     return clone_string(tmp);
 }
 
+/**
+ * Clones a word and adds it to the sentence.
+ * @param sentence Sentence to be added.
+ * @param word Word to be cloned.
+ */
 void sentence_add_word_copy(Sentence_ptr sentence, char *word) {
     char* copy = str_copy(copy, word);
     array_list_add(sentence->words, copy);

@@ -16,6 +16,10 @@ Paragraph_ptr create_paragraph() {
     return result;
 }
 
+/**
+ * Frees memory allocated for paragraph. Frees memory for sentences.
+ * @param paragraph Current paragraph.
+ */
 void free_paragraph(Paragraph_ptr paragraph) {
     free_array_list(paragraph->sentences, (void (*)(void *)) free_sentence);
     free_(paragraph);

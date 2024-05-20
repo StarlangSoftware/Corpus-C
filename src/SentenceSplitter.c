@@ -508,6 +508,12 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
     return sentences;
 }
 
+/**
+ * Checks if the character at position index is a digit or not.
+ * @param line Line to be checked.
+ * @param index Index of the UTF8 character.
+ * @return True if the character is a digit, false otherwise.
+ */
 bool is_digit(const char *line, int index) {
     String_ptr ch = char_at(line, index);
     bool result = str_contains(DIGITS, ch->s);
@@ -515,6 +521,13 @@ bool is_digit(const char *line, int index) {
     return result;
 }
 
+/**
+ * Checks if the character at position index is equal to a given character or not.
+ * @param line Line to be checked.
+ * @param index Index of the UTF8 character.
+ * @param _ch Character to be checked.
+ * @return True if the character at position index is equal to _ch, false otherwise.
+ */
 bool is_equal_to_char(const char *line, int index, char *_ch) {
     String_ptr ch = char_at(line, index);
     bool result = string_equals2(ch, _ch);

@@ -7,6 +7,11 @@
 #include "SentenceSplitter.h"
 #include "Language/EnglishLanguage.h"
 
+/**
+ * Returns shortcut words in English language as an array list.
+ * @param line Shortcut word list.
+ * @return Shortcut words in English language as an array list.
+ */
 Array_list_ptr sentence_split_english(const char *line) {
     Array_list_ptr shortcuts = create_array_list();
     array_list_add(shortcuts, "dr");

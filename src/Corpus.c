@@ -42,6 +42,14 @@ Corpus_ptr create_corpus2(const char *file_name) {
     return result;
 }
 
+/**
+ * Another constructor of Corpus class which also takes is_valid_word input besides file name input.
+ * It reads input file line by line and add each sentence also by using the is_valid_word input which simply checks
+ * the validity of the sentence.
+ *
+ * @param fileName        String file name input that will be read.
+ * @param is_valid_word Method that checks the validity of a word.
+ */
 Corpus_ptr create_corpus3(const char *file_name, bool (*is_valid_word)(const char *)) {
     Corpus_ptr result = create_corpus();
     FILE *infile = fopen(file_name, "r");
@@ -55,6 +63,14 @@ Corpus_ptr create_corpus3(const char *file_name, bool (*is_valid_word)(const cha
     return result;
 }
 
+/**
+ * Another constructor of Corpus class which takes sentence_splitter  as an input besides the file name.
+ * It reads input file line by line and calls the sentence_splitter method with each line, then calls addSentence method
+ * with each sentence.
+ *
+ * @param fileName         String file name input that will be read.
+ * @param sentence_splitter Method that splits the line read and splits the words.
+ */
 Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_splitter)(const char *)) {
     char line[MAX_LINE_LENGTH];
     Corpus_ptr result = create_corpus();
@@ -75,6 +91,10 @@ Corpus_ptr create_corpus4(const char *file_name, Array_list_ptr (*sentence_split
     return result;
 }
 
+/**
+ * Frees memory allocated for corpus. Frees memory for sentences, paragraphs, and word_list hash map.
+ * @param corpus
+ */
 void free_corpus(Corpus_ptr corpus) {
     free_(corpus->file_name);
     free_array_list(corpus->sentences, (void (*)(void *)) free_sentence);
@@ -261,6 +281,11 @@ void shuffle_sentences(Corpus_ptr corpus, int seed) {
     array_list_shuffle(corpus->sentences, seed);
 }
 
+/**
+ * Returns next sentence in the sentences array list and increments
+ * sentence pointer. If there are no sentences to be read, returns null.
+ * @return Next sentence in the sentences array.
+ */
 Sentence_ptr corpus_get_sentence2(Corpus_ptr corpus) {
     int index = corpus->sentence_index;
     if (corpus->sentence_index < corpus->sentences->size) {
@@ -270,10 +295,16 @@ Sentence_ptr corpus_get_sentence2(Corpus_ptr corpus) {
     return NULL;
 }
 
+/**
+ * Initializes sentence pointer to zero.
+ */
 void corpus_open(Corpus_ptr corpus) {
     corpus->sentence_index = 0;
 }
 
+/**
+ * Initializes sentence pointer to zero.
+ */
 void corpus_close(Corpus_ptr corpus) {
     corpus->sentence_index = 0;
 }
