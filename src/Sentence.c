@@ -89,7 +89,7 @@ Sentence_ptr read_sentence2(FILE *infile, bool (*is_valid_word)(const char *)) {
  *
  * @param sentence String input to parse.
  */
-Sentence_ptr create_sentence3(char* sentence) {
+Sentence_ptr create_sentence3(const char* sentence) {
     Array_list_ptr tokens = str_split(sentence, ' ');
     Sentence_ptr result = malloc_(sizeof(Sentence), "create_sentence3");
     result->words = create_array_list();
@@ -102,17 +102,9 @@ Sentence_ptr create_sentence3(char* sentence) {
 }
 
 /**
- * Another constructor of Sentence class with two inputs; a String sentence and a LanguageChecker
- * languageChecker. It parses a sentence by " " and then check the language considerations. If it is a valid word,
- * it adds this word to the newly created vector words.
- *
- * @param sentence        String input.
- * @param is_valid_word  Checks if the word is valid or not.
- */
-
-/**
  * The getWord method takes an index input and gets the word at that index.
  *
+ * @param sentence Current sentence
  * @param index is used to get the word.
  * @return the word in given index.
  */
@@ -123,6 +115,7 @@ char* sentence_get_word(const Sentence* sentence, int index) {
 /**
  * The getWords method returns the vector words.
  *
+ * @param sentence Current sentence
  * @return words vector.
  */
 Array_list_ptr sentence_get_words(const Sentence* sentence) {
@@ -132,6 +125,7 @@ Array_list_ptr sentence_get_words(const Sentence* sentence) {
 /**
  * The getIndex method takes a word as an input and finds the index of that word in the words ArrayList if it exists.
  *
+ * @param sentence Current sentence
  * @param word Word type input to search for.
  * @return index of the found input, -1 if not found.
  */
@@ -148,6 +142,7 @@ int sentence_get_index(const Sentence* sentence, const char* word) {
 /**
  * The wordCount method finds the size of the words vector.
  *
+ * @param sentence Current sentence
  * @return the size of the words vector.
  */
 int sentence_word_count(const Sentence* sentence) {
@@ -157,6 +152,7 @@ int sentence_word_count(const Sentence* sentence) {
 /**
  * The addWord method takes a word as an input and adds this word to the words vector.
  *
+ * @param sentence Current sentence
  * @param word Word to add words vector.
  */
 void sentence_add_word(Sentence_ptr sentence, char* word) {
@@ -166,6 +162,7 @@ void sentence_add_word(Sentence_ptr sentence, char* word) {
 /**
  * The charCount method finds the total number of chars in each word of words vector.
  *
+ * @param sentence Current sentence
  * @return sum of the chars.
  */
 int sentence_char_count(const Sentence* sentence) {
@@ -181,8 +178,9 @@ int sentence_char_count(const Sentence* sentence) {
  * The replaceWord method takes an index and a word as inputs. It removes the word at given index from words
  * vector and then adds the given word to given index of words.
  *
+ * @param sentence Current sentence
  * @param i       index.
- * @param newWord to add the words vector.
+ * @param new_word to add the words vector.
  */
 void sentence_replace_word(Sentence_ptr sentence, int i, char* new_word){
     array_list_replace(sentence->words, i, new_word, (void (*)(void *)) free_);
@@ -192,8 +190,9 @@ void sentence_replace_word(Sentence_ptr sentence, int i, char* new_word){
  * The insertWord method takes an index and a word as inputs. It inserts the word at given index to words
  * ArrayList.
  *
+ * @param sentence Current sentence
  * @param i       index.
- * @param newWord to add the words ArrayList.
+ * @param new_word to add the words ArrayList.
  */
 void sentence_insert_word(Sentence_ptr sentence, int i, char* new_word) {
     array_list_insert(sentence->words, i, new_word);
@@ -202,6 +201,7 @@ void sentence_insert_word(Sentence_ptr sentence, int i, char* new_word) {
 /**
  * The safeIndex method takes an index as an input and checks whether this index is between 0 and the size of the words.
  *
+ * @param sentence Current sentence
  * @param index is used to check the safety.
  * @return true if an index is safe, false otherwise.
  */
@@ -212,6 +212,7 @@ bool sentence_safe_index(const Sentence* sentence, int index) {
 /**
  * The toWords method returns an accumulated string of each word's names in words ArrayList.
  *
+ * @param sentence Current sentence
  * @return String result which has all the names of each item in words ArrayList.
  */
 String_ptr to_words(const Sentence* sentence) {
@@ -228,6 +229,7 @@ String_ptr to_words(const Sentence* sentence) {
 /**
  * The sentence_to_string method returns an accumulated string of each word's names in words ArrayList.
  *
+ * @param sentence Current sentence
  * @return String result which has all the names of each item in words ArrayList.
  */
 char* sentence_to_string(const Sentence* sentence) {
@@ -245,7 +247,8 @@ char* sentence_to_string(const Sentence* sentence) {
  * @param sentence Sentence to be added.
  * @param word Word to be cloned.
  */
-void sentence_add_word_copy(Sentence_ptr sentence, char *word) {
-    char* copy = str_copy(copy, word);
+void sentence_add_word_copy(Sentence_ptr sentence, const char *word) {
+    char* copy = NULL;
+    copy = str_copy(copy, word);
     array_list_add(sentence->words, copy);
 }

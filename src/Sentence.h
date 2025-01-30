@@ -20,7 +20,7 @@ Sentence_ptr create_sentence();
 
 Sentence_ptr create_sentence2(FILE* infile);
 
-Sentence_ptr create_sentence3(char* sentence);
+Sentence_ptr create_sentence3(const char* sentence);
 
 Sentence_ptr read_sentence(FILE* infile);
 
@@ -38,7 +38,7 @@ int sentence_word_count(const Sentence* sentence);
 
 void sentence_add_word(Sentence_ptr sentence, char* word);
 
-void sentence_add_word_copy(Sentence_ptr sentence, char* word);
+void sentence_add_word_copy(Sentence_ptr sentence, const char* word);
 
 int sentence_char_count(const Sentence* sentence);
 

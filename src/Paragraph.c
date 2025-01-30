@@ -2,7 +2,6 @@
 // Created by Olcay Taner YILDIZ on 20.05.2023.
 //
 
-#include <stdlib.h>
 #include <Memory/Memory.h>
 #include "Paragraph.h"
 #include "Sentence.h"
@@ -28,6 +27,7 @@ void free_paragraph(Paragraph_ptr paragraph) {
 /**
  * The addSentence method adds given sentence to sentences vector.
  *
+ * @param paragraph Current paragraph.
  * @param sentence Sentence type input to add sentences.
  */
 void paragraph_add_sentence(Paragraph_ptr paragraph, Sentence_ptr sentence) {
@@ -37,6 +37,7 @@ void paragraph_add_sentence(Paragraph_ptr paragraph, Sentence_ptr sentence) {
 /**
  * The sentenceCount method finds the size of the vector sentences.
  *
+ * @param paragraph Current paragraph.
  * @return the size of the vector sentences.
  */
 int paragraph_sentence_count(const Paragraph* paragraph) {
@@ -46,6 +47,7 @@ int paragraph_sentence_count(const Paragraph* paragraph) {
 /**
  * The getSentence method finds the sentence from sentences ArrayList at given index.
  *
+ * @param paragraph Current paragraph.
  * @param index used to get a sentence.
  * @return sentence at given index.
  */
