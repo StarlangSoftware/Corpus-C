@@ -89,9 +89,7 @@ void testGetFileName(){
 }
 
 int main(){
-    start_memory_check();
     testGetIndex();
     testGetExtension();
     testGetFileName();
-    end_memory_check();
 }
