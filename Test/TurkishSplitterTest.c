@@ -4,6 +4,9 @@
 
 #include <ArrayList.h>
 #include <stdio.h>
+#include <string.h>
+#include <Memory/Memory.h>
+
 #include "../src/TurkishSplitter.h"
 #include "../src/Sentence.h"
 
@@ -75,6 +78,36 @@ void testSplit7(){
     free_array_list(result, (void (*)(void *)) free_sentence);
 }
 
+void testSplit8(){
+    Array_list_ptr result = sentence_split_turkish("AA piller, AAA pillerin yaklaşık üç kat kapasitesine sahiptir");
+    Sentence_ptr sentence = array_list_get(result, 0);
+    if (strcmp(sentence_get_word(sentence, 3), "AAA") != 0){
+        printf("Error in test split 8 with word AAA");
+    }
+    free_array_list(result, (void (*)(void *)) free_sentence);
+    result = sentence_split_turkish("Topu atıp yakalaaaa diye bağırdı");
+    sentence = array_list_get(result, 0);
+    if (strcmp(sentence_get_word(sentence, 2), "yakala") != 0){
+        printf("Error in test split 8 with word yakala");
+    }
+    free_array_list(result, (void (*)(void *)) free_sentence);
+}
+
+void testSplit9() {
+    Array_list_ptr result = sentence_split_turkish("Bunun yanı sıra erkek t-shirt modellerini klasik giyim tarzına uyarlayarak kullanmak da mümkündür");
+    Sentence_ptr sentence = array_list_get(result, 0);
+    if (sentence_word_count(sentence) != 13){
+        printf("Error in test split 9 in sentence 1");
+    }
+    free_array_list(result, (void (*)(void *)) free_sentence);
+    result = sentence_split_turkish("USB-C, USB-A’ya göre çok daha yüksek hızlarda aktarım sağlayabilir");
+    sentence = array_list_get(result, 0);
+    if (sentence_word_count(sentence) != 10){
+        printf("Error in test split 9 in sentence 2");
+    }
+    free_array_list(result, (void (*)(void *)) free_sentence);
+}
+
 int main(){
     testSplit1();
     testSplit2();
@@ -83,4 +116,6 @@ int main(){
     testSplit5();
     testSplit6();
     testSplit7();
+    testSplit8();
+    testSplit9();
 }

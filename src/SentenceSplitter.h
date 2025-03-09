@@ -8,10 +8,11 @@
 #include <ArrayList.h>
 #include "StringUtils.h"
 
-static char *SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
+static char *SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“-–—\u00AD\u200B\t&\u2009\u202F\uFEFF";
 static char *SENTENCE_ENDERS = ".?!…";
 static char *PUNCTUATION_CHARACTERS = ",:;‚";
 static char *APOSTROPHES = "'’‘\u055B";
+static char *HYPHENS = "-–—";
 
 bool shortcut_list_contains(const Array_list* shortcuts, const char* current_word);
 
@@ -36,5 +37,7 @@ Array_list_ptr sentence_split(const char* upper_case_letters, const char* lower_
 bool is_digit(const char *line, int index);
 
 bool is_equal_to_char(const char *line, int index, char* _ch);
+
+bool only_one_letter_exists_before_or_after(const char *lower_case_letters, const char* upper_case_letters, const char* line, int i);
 
 #endif //CORPUS_SENTENCESPLITTER_H
